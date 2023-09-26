@@ -33,3 +33,11 @@ Route::get('admin/home', [HomeController::class, 'home'])->name('admin-home')
 Route::get('admin/product', [ProductController::class, 'index'])->name('admin-product')
     ->middleware('check-admin');
 
+Route::post('admin/product/search', [ProductController::class,'search'])->name('admin-product-search')
+    ->middleware('check-admin');
+
+Route::post('/admin/product',[ProductController::class,'createProduct'])->name('admin-product-create')
+    ->middleware('check-admin');
+
+Route::post('admin/product/delete',[ProductController::class,'deleteProductById'])->name('admin-product-delete')
+    ->middleware('check-admin');
