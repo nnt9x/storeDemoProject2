@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    private $LIMIT = 10;
+    private $LIMIT = 1;
     private $brands;
 
     function __construct()
@@ -48,7 +49,9 @@ class ProductController extends Controller
     // GET: admin/product/id
     function showProductById($id)
     {
-
+        // Lấy ra sản phẩm kèm hình ảnh
+        $product = Product::with('images')->find($id);
+        return view('admin.product.detail', ['product' => $product]);
     }
 
     // POST: admin/product

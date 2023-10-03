@@ -33,6 +33,9 @@ Route::get('admin/home', [HomeController::class, 'home'])->name('admin-home')
 Route::get('admin/product', [ProductController::class, 'index'])->name('admin-product')
     ->middleware('check-admin');
 
+Route::get('/admin/product/{id}', [ProductController::class, 'showProductById'])->name('admin-product-detail')
+    ->middleware('check-admin');
+
 Route::post('admin/product/search', [ProductController::class,'search'])->name('admin-product-search')
     ->middleware('check-admin');
 
