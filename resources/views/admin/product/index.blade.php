@@ -4,9 +4,33 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <button class="btn btn-primary mb-3" data-coreui-toggle="modal" data-coreui-target="#staticBackdrop">Thêm
-                sản phẩm
-            </button>
+            <div class="d-flex">
+                <button class="btn btn-primary mb-3" data-coreui-toggle="modal" data-coreui-target="#staticBackdrop">
+                    Thêm
+                    sản phẩm
+                </button>
+                <div class="flex-grow-1"></div>
+
+                <form method="POST" class="me-3" action="{{ route('admin-product-import-sample') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-secondary">Tải xuống excel mẫu</button>
+                </form>
+
+                <form action="{{route('admin-product-import')}}" id="formSubmitExcel" method="POST" class="me-3" enctype="multipart/form-data">
+                    @csrf
+                    <input onchange="document.getElementById('formSubmitExcel').submit()" id="file" type="file"
+                           name="fileExcel" class="form-control" hidden>
+                    <button type="button" onclick="document.getElementById('file').click()" class="btn btn-primary">
+                        Import sản phẩm excel
+                    </button>
+                </form>
+
+                <form method="POST" action="{{route('admin-product-export')}}">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Export excel</button>
+                </form>
+
+            </div>
 
             <form action="{{route('admin-product-search')}}" method="POST">
                 @csrf

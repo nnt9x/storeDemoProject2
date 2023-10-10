@@ -33,6 +33,10 @@ Route::get('admin/home', [HomeController::class, 'home'])->name('admin-home')
 Route::get('admin/product', [ProductController::class, 'index'])->name('admin-product')
     ->middleware('check-admin');
 
+Route::post('admin/product/export', [ProductController::class, 'productExport'])->name('admin-product-export');
+Route::post('admin/product/import-sample', [ProductController::class, 'productImportSample'])->name('admin-product-import-sample');
+Route::post('admin/product/import', [ProductController::class, 'productImport'])->name('admin-product-import');
+
 Route::get('/admin/product/{id}', [ProductController::class, 'showProductById'])->name('admin-product-detail')
     ->middleware('check-admin');
 

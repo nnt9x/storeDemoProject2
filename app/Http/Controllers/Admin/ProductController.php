@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductImportSample;
+use App\Exports\ProductsExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductsImport;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
-    private $LIMIT = 1;
+    private $LIMIT = 10;
     private $brands;
 
     function __construct()
@@ -25,6 +29,25 @@ class ProductController extends Controller
             ->join('brands', 'products.brand_id', '=', 'brands.id')
             ->select('products.*', 'brands.brand_name')->paginate($this->LIMIT);
         return view('admin.product.index', ['products' => $products, 'brands' => $this->brands]);
+    }
+
+    // POST: admin/product/export
+    function productExport(){
+        return Excel::download(new ProductsExport(), 'products.xlsx');
+    }
+
+    // POST: admin/product/import-sample
+    // Tải xuống exel mẫu
+    function productImportSample()
+    {
+        return Excel::download(new ProductImportSample(), 'product-import.xlsx');
+    }
+
+    // POST: admin/product/import
+    function productImport(Request $request){
+        Excel::import(new ProductsImport(),  $request->file('fileExcel'));
+        flash()->addSuccess('Import thành công!');
+        return redirect()->back();
     }
 
     function search(Request $request)
